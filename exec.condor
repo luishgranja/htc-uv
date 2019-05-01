@@ -1,0 +1,16 @@
+# Use: condor_submit exec.condor
+Universe   = vanilla
+
+should_transfer_files = Yes
+when_to_transfer_output = ON_EXIT_OR_EVICT
+transfer_input_files=univalle.jpg,req.txt
+
+Executable = run_py.sh
+Arguments = proc$(Process).py
+
+Log        = log.$(Cluster).txt
+Input      = proc$(Process).py
+Output     = out.$(Cluster)_$(Process).txt
+Error      = err.$(Cluster)_$(Process).txt
+
+Queue 2
