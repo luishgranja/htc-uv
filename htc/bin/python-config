@@ -1,4 +1,4 @@
-#!/home/luis/Escritorio/htcondor/htc/bin/python
+#!/home/luis/Escritorio/htc-uv/htc/bin/python
 
 import sys
 import getopt
