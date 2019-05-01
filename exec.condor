@@ -1,5 +1,6 @@
 # Use: condor_submit exec.condor
-Universe   = vanilla
+Universe   = docker
+docker_image	= python:3.6.8-alpine3.9
 
 should_transfer_files = Yes
 when_to_transfer_output = ON_EXIT_OR_EVICT

@@ -1,50 +1,99 @@
 from PIL import Image
-import numpy as np
+import math
 
 # Cargar imagen
 img = Image.open('univalle.jpg')
 
-# Convertir imagen en arreglo
-img_array_aux = np.asarray(img)
-img_array = np.copy(img_array_aux)
-nueva_img = img_array
+#Obtener alto y ancho de la imagen
+width, height = img.size
 
-# Funcion para calcular promedio en un arreglo
-def prom(arreglo):
-	return sum(arreglo) / len(arreglo)
+# Variable tipo Image en la que se guardan los datos finales
+nueva_img = Image.new("RGB", (width, height), "white")
 
+for x in range(1, width-1):
+	for y in range(1, height-1):
 
-# Funcion para crear nuevo arreglo con el umbral definido
-def set_umbral(img_array):
-	# Arreglo para almacenar el promedio de cada pixel
-	balance_array = []
+		# Inicializar los Gradientes Gx Gy para cada pixel
+		Gx = 0
+		Gy = 0
 
-	for columna in img_array:
-		for pixel in columna:
-			# Promedio de los colores del pixel
-			promedio_pixel = prom(pixel[:3])
-			balance_array.append(promedio_pixel)
+		# top left pixel
+		p = img.getpixel((x-1, y-1))
+		r = p[0]
+		g = p[1]
+		b = p[2]
 
-	# Promedio de color de los pixeles
-	balance_img = prom(balance_array)
+		# intensidad varia de 0 a 765 (255 * 3)
+		intensidad = r + g + b
 
-	# Verificar cada pixel dentro del umbral definido en balance_img
-	for columna in nueva_img:
-		for pixel in columna:
-			# Si el promedio de colores del pixel es mayor al promedio general se da color blanco, si no negro
-			if prom(pixel[:3]) > balance_img:
-				pixel[0] = 255
-				pixel[1] = 255
-				pixel[2] = 255
-			else:
-				pixel[0] = 0
-				pixel[1] = 0
-				pixel[2] = 0
+		# acumular los valores en Gx, y Gy
+		Gx += -intensidad
+		Gy += -intensidad
 
-	return nueva_img
+		# remaining left column
+		p = img.getpixel((x-1, y))
+		r = p[0]
+		g = p[1]
+		b = p[2]
 
+		Gx += -2 * (r + g + b)
 
+		p = img.getpixel((x-1, y+1))
+		r = p[0]
+		g = p[1]
+		b = p[2]
 
-print(nueva_img)
-imagen_resultado = Image.fromarray(set_umbral(img_array))
-imagen_resultado.save('resultado_bn.png')
+		Gx += -(r + g + b)
+		Gy += (r + g + b)
+
+		# middle pixels
+		p = img.getpixel((x, y-1))
+		r = p[0]
+		g = p[1]
+		b = p[2]
+
+		Gy += -2 * (r + g + b)
+
+		p = img.getpixel((x, y+1))
+		r = p[0]
+		g = p[1]
+		b = p[2]
+
+		Gy += 2 * (r + g + b)
+
+		# right column
+		p = img.getpixel((x+1, y-1))
+		r = p[0]
+		g = p[1]
+		b = p[2]
+
+		Gx += (r + g + b)
+		Gy += -(r + g + b)
+
+		p = img.getpixel((x+1, y))
+		r = p[0]
+		g = p[1]
+		b = p[2]
+
+		Gx += 2 * (r + g + b)
+
+		p = img.getpixel((x+1, y+1))
+		r = p[0]
+		g = p[1]
+		b = p[2]
+
+		Gx += (r + g + b)
+		Gy += (r + g + b)
+
+		# calculate the length of the gradient (Pythagorean theorem)
+		length = math.sqrt((Gx * Gx) + (Gy * Gy))
+
+		# normalise the length of gradient to the range 0 to 255
+		length = length / 4328 * 255
+
+		length = int(length)
+
+		# draw the length in the edge image
+		nueva_img.putpixel((x,y),(length,length,length))
+
+nueva_img.save('resultado_sobel.png')

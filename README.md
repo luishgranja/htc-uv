@@ -17,13 +17,13 @@ condor_submit exec.condor
 
 ## Archivos
 
-### proc1.py
-Script en Python que permite transformar una imagen a blando y negro a traves de operaciones con la matriz de pixeles.
+### proc0.py
+Script en Python que permite transformar una imagen a blanco y negro a traves de operaciones con la matriz de pixeles.
 
 ### proc1.py
-Script en Python que pusando el operador de Sobel permite hallar los bordes de una imagen, que al final se convierte en un filtro.
+Script en Python que usando el operador de Sobel permite hallar los bordes de una imagen, que al final se convierte en un filtro.
 
-### run_py.sh 
+### run_py.sh
 Script que contiene las ordenes necesarias para llevar a cabo la tarea principal en el nodo del cluster.
 
 ### exec.condor
