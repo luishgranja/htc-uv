@@ -2,7 +2,7 @@
 Universe   = vanilla
 
 should_transfer_files = Yes
-when_to_trvansfer_output = ON_EXIT_OR_EVICT
+when_to_transfer_output = ON_EXIT_OR_EVICT
 transfer_input_files=univalle.jpg,req.txt,htc
 
 Executable = run_py.sh
