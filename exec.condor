@@ -1,10 +1,9 @@
 # Use: condor_submit exec.condor
-Universe   = docker
-docker_image	= python:3.6.8-alpine3.9
+Universe   = vanilla
 
 should_transfer_files = Yes
-when_to_transfer_output = ON_EXIT_OR_EVICT
-transfer_input_files=univalle.jpg,req.txt
+when_to_trvansfer_output = ON_EXIT_OR_EVICT
+transfer_input_files=univalle.jpg,req.txt,htc
 
 Executable = run_py.sh
 Arguments = proc$(Process).py
