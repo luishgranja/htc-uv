@@ -1,6 +1,6 @@
 # Use: condor_submit exec.condor
 Universe   = docker
-docker_image	= ivanmtoroc/ubuntu-python3
+docker_image	= ivanmtoroc/ubuntu-python3:2.0
 
 should_transfer_files = Yes
 when_to_transfer_output = ON_EXIT_OR_EVICT
