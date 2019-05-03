@@ -1,5 +1,3 @@
-FROM python:3.6.8-alpine3.9
-
-MAINTAINER LSI
-
-RUN apt-get update
+FROM ubuntu
+RUN apt-get update && apt-get install -y python3 && apt-get install -y python3-pip
+RUN pip3 install numpy pillow
